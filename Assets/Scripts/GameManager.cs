@@ -22,6 +22,7 @@ public class GameManager : Singleton
     public const string IsClearedKey = "IsCleared";
 
     public bool isCleared = false;
+    public bool isClear = false; //Current Game Clear
     public SceneName currentScene;
     public LanguageType languageType;
 
@@ -88,5 +89,10 @@ public class GameManager : Singleton
             SceneName.Game => gameSM,
             _ => null,
         };
+    }
+
+    public void SetClear()
+    {
+        PlayerPrefs.SetInt(IsClearedKey, 1);
     }
 }

@@ -22,7 +22,13 @@ public class SM : Singleton
 
     public void FadeOut()
     {
-        StartCoroutine(FadeManager.FadeIn(imgFade, 1f));
+        StartCoroutine(Co_FadeOut());
+    }
+
+    IEnumerator Co_FadeOut()
+    {
+        yield return StartCoroutine(FadeManager.FadeIn(imgFade, 1f));
+        imgFade.SetActive(false);
     }
 
     public void OpenOptionUI()

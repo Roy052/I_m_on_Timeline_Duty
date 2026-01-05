@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public enum PlaceType
 {
@@ -45,11 +46,24 @@ public class AnomalyInfo
 
 public static class DataManager
 {
+    public static int countCamera = 4;
+
+    //(Position, Rotation)
+    public static List<(Vector3, Vector3)> dataCameras = new()
+    {
+        (new Vector3(1.3f, 3.5f, -4.7f), new Vector3(23.5f, -128f, 0)), //Office
+        (new Vector3(3.2f, 3.5f, -7.5f), new Vector3(23.5f, -270f, 0)), //Lounge
+        (new Vector3(2, 3.5f, -3), new Vector3(25, 0, 0)), //Entrance
+        (new Vector3(3.2f, 3.5f, 9.5f), new Vector3(23.5f, -90f, 0)), //Lounge
+    };
+
     public static Dictionary<int, AnomalyInfo> dicAnomalyInfos = new()
     {
         {0, new AnomalyInfo()
         {
-
+            id = 0,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.Intruder,
         } }
     };
 
@@ -84,22 +98,36 @@ public static class DataManager
         {"Label_Place_Entrance", new() { "Entrance", "입구" } },
         {"Label_Place_Storage", new() { "Storage", "창고" } },
 
+        {"Label_Anomaly_None", new() { "None", "없음" } },
         {"Label_Anomaly_Intruder", new() { "Intruder", "침입자" } },
         {"Label_Anomaly_ObjectMovement", new() { "Object Movement", "물체 이동" } },
-        {"Label_Anomaly_LightAnomaly", new() { "Light Anomaly", "빛 변칙" } },
-        {"Label_Anomaly_PictureAnomaly", new() { "Picture Anomaly", "그림 변칙" } },
+        {"Label_Anomaly_LightAnomaly", new() { "Light Anomaly", "빛 이상 현상" } },
+        {"Label_Anomaly_PictureAnomaly", new() { "Picture Anomaly", "그림 이상 현상" } },
         {"Label_Anomaly_ObjectDisappearance", new() { "Object Disappearance", "물체 실종" } },
         {"Label_Anomaly_ObjectAppearance", new() { "Object Appearance", "물체 생성" } },
         {"Label_Anomaly_Distortion", new() { "Distortion", "공간왜곡" } },
-        {"Label_Anomaly_TimeAnomaly", new() { "Time Anomaly", "시간 변칙" } },
+        {"Label_Anomaly_TimeAnomaly", new() { "Time Anomaly", "시간 이상 현상" } },
         {"Label_Anomaly_CameraMalfunction", new() { "Camera Malfunction", "카메라 오작동" } },
         {"Label_Anomaly_BeegSana", new() { "!!Beeg Sana!!", "!!Beeg Sana!!" } },
+
+        //Btns
+        {"Label_File_Anomaly", new() { "File an anomaly report", "이상 현상 보고서 제출"} },
+        {"Label_Send", new() { "Send", "보내기"} },
+        {"Label_Cancel", new() { "Cancel", "취소"} },
+        {"Label_Anomaly_Where", new() { "Anomaly spotted in:", "이상 현상이 발견된 곳:"} },
+        {"Label_Anomaly_What", new() { "Anomaly type:", "이상 현상 종류:"} },
+        {"Label_Report_Pending", new() {"Report pending", "보고서 전송 중"}},
+
+        //Message
+        {"Message_Notice_First", new(){"!!!ATTENTION FOR AGENT K!!! NUMEROUS ANOMALIES HAVE BEEN DETECTED LATELY. PAY EXTREMELY CLOSE ATTENTION TO THE SURVEILLANCE CAMERA FOOTAGE AND FILE AN ANOMALY REPORT AS SOON AS POSSIBLE WHEN YOU NOTICE SOMETHING CHANGED.", "!!!요원 K에게 긴급 통보!!! 최근 다수의 이상 현상이 감지되었습니다. 감시 카메라 영상을 극도로 주의 깊게 관찰하고 무언가 변화가 감지되는 즉시 가능한 한 빨리 이상 현상 보고서를 제출하십시오." } },
+
+        {"Message_Anomaly_Fixed", new() {"Anomaly Fixed", "이상 현상 해결됨"} },
+        {"Message_Anomaly_Not_Found", new() {"No anomaly of type \'_2_\' found in \'_1_\'.", "\'_1_\'에서 \'_2_\'이라는 이상 현상은 발견되지 않았습니다."} },
+
 
         { "Language", new() { "Language", "언어" } },
         { "BGM Volume", new() { "BGM Volume", "배경음악 크기" } },
         { "Sound Effects Volume", new() { "Sound Effects Volume", "효과음 크기" } },
-        { "Discard Deck", new() { "Discard Deck", "버린 더미" } },
-        { "Reasoning", new() { "Is the opponent’s number _1_ or higher?", "상대방의 숫자가 _1_ 이상일까?" } },
 
         { "AnswerYes", new() { "YES", "그렇다" } },
         { "AnswerNo", new() { "NO", "아니다" } },
@@ -107,11 +135,6 @@ public static class DataManager
         { "Start", new() { "START", "시작" } },
         { "Settings", new() { "SETTINGS", "설정" } },
         { "Quit", new() { "QUIT", "종료" } },
-
-        { "LabelFloor", new() { "_1_ Floor", "_1_ 층" } },
-
-        { "UpgradeText1", new() { "Please select a card to upgrade.\r\n", "강화할 카드를 선택해주세요." } },
-        { "UpgradeText2", new() { "Check the selected card.", "선택한 카드를 확인하세요." } },
 
         { "LabelUpgrade", new(){ "UPGRADE" , "강화" } },
         { "LabelCancel", new(){ "CANCEL" , "취소" } },

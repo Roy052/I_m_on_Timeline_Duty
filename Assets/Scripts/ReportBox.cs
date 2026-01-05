@@ -25,15 +25,15 @@ public class ReportBox : Singleton
 
     public void Set()
     {
-        List<Dropdown.OptionData> optionDatas = new();
+        List<Dropdown.OptionData> optionPlaceDatas = new();
         for(PlaceType type = PlaceType.None; type < PlaceType.Max; type++)
-            optionDatas.Add(new Dropdown.OptionData() { text = DataManager.GetString($"Label_Place_{type}") });
-        dropDownPlace.options = optionDatas;
+            optionPlaceDatas.Add(new Dropdown.OptionData() { text = DataManager.GetString($"Label_Place_{type}") });
+        dropDownPlace.options = optionPlaceDatas;
 
-        optionDatas.Clear();
+        List<Dropdown.OptionData> optionAnomalyDatas = new();
         for (AnomalyType type = AnomalyType.None; type < AnomalyType.BeegSana; type++)
-            optionDatas.Add(new Dropdown.OptionData() { text = DataManager.GetString($"Label_Anomaly_{type}") });
-        dropdownAnomaly.options = optionDatas;
+            optionAnomalyDatas.Add(new Dropdown.OptionData() { text = DataManager.GetString($"Label_Anomaly_{type}") });
+        dropdownAnomaly.options = optionAnomalyDatas;
 
         if (isBeegAdded)
             AddBeegSana();
@@ -63,11 +63,16 @@ public class ReportBox : Singleton
         anomalyType = (AnomalyType)value;
     }
 
-    public void OnReport()
+    public void OnClickSend()
     {
         if (placeType == PlaceType.None || anomalyType == AnomalyType.None)
             return;
 
-        gameSM.OnReport(placeType, anomalyType);
+        gameSM.OnSendReport(placeType, anomalyType);
+    }
+
+    public void OnClickCancel()
+    {
+        this.SetActive(false);
     }
 }

@@ -14,13 +14,11 @@ public class MenuSM : SM
             return;
 
         menuSM = this;
-        Observer.onChangeLanguageType += ChangeLanguageType;
     }
 
     public void OnDestroy()
     {
         menuSM = null;
-        Observer.onChangeLanguageType -= ChangeLanguageType;
     }
 
     protected override void Start()
@@ -45,12 +43,5 @@ public class MenuSM : SM
     public void OnQuit()
     {
         Application.Quit();
-    }
-
-    void ChangeLanguageType()
-    {
-        textStart.text = DataManager.GetString("Start");
-        textSettings.text = DataManager.GetString("Settings");
-        textQuit.text = DataManager.GetString("Quit");
     }
 }
