@@ -50,12 +50,12 @@ public class TutorialManager : Singleton
             isTutorialShowed[i] = isShowed;
         }
 
-        Observer.onChangeLanguageType += ChangeLanguageType;
+        Observer.onRefreshLanguage += ChangeLanguageType;
     }
 
     public void OnDestroy()
     {
-        Observer.onChangeLanguageType -= ChangeLanguageType;
+        Observer.onRefreshLanguage -= ChangeLanguageType;
     }
 
     public void Play(TutorialType type)

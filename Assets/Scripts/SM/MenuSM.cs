@@ -4,9 +4,7 @@ using UnityEngine.UI;
 
 public class MenuSM : SM
 {
-    public Text textStart;
-    public Text textSettings;
-    public Text textQuit;
+    [SerializeField] CreditBox creditBox;
 
     public void Awake()
     {
@@ -40,6 +38,13 @@ public class MenuSM : SM
         optionUI.SetActive(true);
         optionUI.Set();
     }
+
+    public void OnCredit()
+    {
+        creditBox.Set();
+        creditBox.SetActive(true);
+    }
+
     public void OnQuit()
     {
         Application.Quit();

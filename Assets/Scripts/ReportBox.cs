@@ -15,12 +15,12 @@ public class ReportBox : Singleton
 
     private void Awake()
     {
-        Observer.onChangeLanguageType += Set;
+        Observer.onRefreshLanguage += Set;
     }
 
     private void OnDestroy()
     {
-        Observer.onChangeLanguageType -= Set;
+        Observer.onRefreshLanguage -= Set;
     }
 
     public void Set()

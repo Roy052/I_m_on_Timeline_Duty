@@ -17,7 +17,7 @@ public class SM : Singleton
 
     protected virtual void Start()
     {
-        Observer.onChangeLanguageType?.Invoke();
+        Observer.onRefreshLanguage?.Invoke();
     }
 
     public void FadeOut()

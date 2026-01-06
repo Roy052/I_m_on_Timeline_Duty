@@ -42,7 +42,7 @@ public class GameManager : Singleton
     {
         isCleared = PlayerPrefs.GetInt(IsClearedKey, 0) != 0;
         languageType = (LanguageType)PlayerPrefs.GetInt(LaunguageKey, 0);
-        Observer.onChangeLanguageType?.Invoke();
+        Observer.onRefreshLanguage?.Invoke();
     }
 
     private void Update()

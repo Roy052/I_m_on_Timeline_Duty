@@ -11,7 +11,7 @@ public class ShowSM : SM
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(PlayDialogs());
+        //StartCoroutine(PlayDialogs());
     }
 
     bool isClicked = false;

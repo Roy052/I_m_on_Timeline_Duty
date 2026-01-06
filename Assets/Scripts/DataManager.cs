@@ -111,6 +111,11 @@ public static class DataManager
         {"Label_Anomaly_BeegSana", new() { "!!Beeg Sana!!", "!!Beeg Sana!!" } },
 
         //Btns
+        { "Label_Start", new() { "START", "시작" } },
+        { "Label_Settings", new() { "SETTINGS", "설정" } },
+        { "Label_Credits", new() { "CREDITS", "크레딧" } },
+        { "Label_Quit", new() { "QUIT", "종료" } },
+
         {"Label_File_Anomaly", new() { "File an anomaly report", "이상 현상 보고서 제출"} },
         {"Label_Send", new() { "Send", "보내기"} },
         {"Label_Cancel", new() { "Cancel", "취소"} },
@@ -132,9 +137,7 @@ public static class DataManager
         { "AnswerYes", new() { "YES", "그렇다" } },
         { "AnswerNo", new() { "NO", "아니다" } },
 
-        { "Start", new() { "START", "시작" } },
-        { "Settings", new() { "SETTINGS", "설정" } },
-        { "Quit", new() { "QUIT", "종료" } },
+        
 
         { "LabelUpgrade", new(){ "UPGRADE" , "강화" } },
         { "LabelCancel", new(){ "CANCEL" , "취소" } },
@@ -152,6 +155,11 @@ public static class DataManager
         
         { "Ending_1", new() { "Everything had been her prank all along.", "모든 일은 그녀의 장난이었다." } },
         { "Ending_2", new() { "What kind of prank could be waiting next time?", "앞으론 또 어떤 장난이 기다리고 있을까?" } },
+    };
+
+    public static List<(string, string, string)> credits = new()
+    {
+        ("A", "B", "C")
     };
 
     public static string GetString(string label, params string[] arr)
