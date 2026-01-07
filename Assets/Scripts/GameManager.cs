@@ -19,9 +19,9 @@ public enum LanguageType
 public class GameManager : Singleton
 {
     public const string LaunguageKey = "LanguageType";
-    public const string IsClearedKey = "IsCleared";
+    public const string IsPlayedIntro = "IsPlayedIntro";
 
-    public bool isCleared = false;
+    public bool isPlayedIntro = false;
     public bool isClear = false; //Current Game Clear
     public SceneName currentScene;
     public LanguageType languageType;
@@ -40,7 +40,7 @@ public class GameManager : Singleton
 
     public void Start()
     {
-        isCleared = PlayerPrefs.GetInt(IsClearedKey, 0) != 0;
+        isPlayedIntro = PlayerPrefs.GetInt(IsPlayedIntro, 0) != 0;
         languageType = (LanguageType)PlayerPrefs.GetInt(LaunguageKey, 0);
         Observer.onRefreshLanguage?.Invoke();
     }
@@ -91,8 +91,8 @@ public class GameManager : Singleton
         };
     }
 
-    public void SetClear()
+    public void SetIntroPlayed()
     {
-        PlayerPrefs.SetInt(IsClearedKey, 1);
+        PlayerPrefs.SetInt(IsPlayedIntro, 1);
     }
 }

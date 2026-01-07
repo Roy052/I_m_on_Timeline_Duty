@@ -21,6 +21,10 @@ public class GameSM : SM
     [SerializeField] Text textPending;
     [SerializeField] ReportBox reportBox;
 
+    [Header("Anomalies]")]
+    [SerializeField] List<GameObject> objAnomalies;
+    bool[] timeAnomaly = new bool[4];
+
     bool isGameEnd = false;
 
     public class AnomalyOccurInfo
@@ -55,6 +59,8 @@ public class GameSM : SM
     protected override void Start()
     {
         base.Start();
+        //Intro
+        gm.SetIntroPlayed();
 
         int countAnomalyOverAll = Random.Range(25, 29);
         int[] countAnomalies = new int[6] { 2, 3, 4, 4, 5, 6 };
@@ -101,14 +107,17 @@ public class GameSM : SM
         currentTime += Time.deltaTime;
         int hour = (int)(currentTime * 12 / 3600);
         int minute = (int)((currentTime * 12 % 3600) / 60);
-        textTime.text = $"{hour:00} : {minute:00}";
+
+        if (timeAnomaly[idxCurrentCamera])
+            textTime.text = "T:M:T";
+        else
+            textTime.text = $"{hour:00} : {minute:00}";
 
         //After 6 Hour, Game Clear
         if(hour >= 6)
         {
             gm.LoadScene(SceneName.End);
             gm.isClear = true;
-            gm.SetClear();
             isGameEnd = true;
             return;
         }
@@ -162,23 +171,29 @@ public class GameSM : SM
     void OnOccurAnomaly(int idAnomaly)
     {
         var currentInfo = DataManager.dicAnomalyInfos[idAnomaly];
+        var objAnomaly = objAnomalies[currentInfo.idObject];
         switch (currentInfo.anomalyType)
         {
             case AnomalyType.Intruder:
+                objAnomaly.SetActive(true);
                 break;
             case AnomalyType.ObjectMovement:
+                objAnomaly.transform.position = new Vector3(currentInfo.changeValue1, currentInfo.changeValue2, currentInfo.changeValue3);
                 break;
             case AnomalyType.LightAnomaly:
                 break;
             case AnomalyType.PictureAnomaly:
                 break;
             case AnomalyType.ObjectDisappearance:
+                objAnomaly.SetActive(false);
                 break;
             case AnomalyType.ObjectAppearance:
+                objAnomaly.SetActive(true);
                 break;
             case AnomalyType.Distortion:
                 break;
             case AnomalyType.TimeAnomaly:
+                timeAnomaly[currentInfo.idObject] = true;
                 break;
             case AnomalyType.CameraMalfunction:
                 break;
@@ -222,8 +237,14 @@ public class GameSM : SM
 
     public void OnClickReport()
     {
+        objBtnReport.SetActive(false);
         reportBox.SetActive(true);
         reportBox.Set();
+    }
+
+    public void OnClickReportCancel()
+    {
+        objBtnReport.SetActive(true);
     }
 
     Coroutine co_pendingText = null;

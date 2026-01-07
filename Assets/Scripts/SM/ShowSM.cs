@@ -1,53 +1,49 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ShowSM : SM
 {
-    public TextTyper textTyper;
-    public GameObject[] objImgs;
-    public SceneName sceneName;
-    public (string, int)[] strImgNums;
+    [SerializeField] RectTransform rtVideo;
+    [SerializeField] RectTransform rtText;
+    [SerializeField] Text text;
+    [SerializeField] TextTyper textTyper;
+    [SerializeField] SceneName sceneName;
+
+    protected List<string> strings;
 
     protected override void Start()
     {
         base.Start();
-        //StartCoroutine(PlayDialogs());
+        StartCoroutine(PlayDialogs());
     }
 
     bool isClicked = false;
     IEnumerator PlayDialogs()
     {
-        int currentImgNum = -1;
-        for (int i = 0; i < strImgNums.Length; i++)
+        soundManager.PlaySFX(SFX.KaelaScreen);
+        yield return StartCoroutine(FadeManager.ChangeSize(rtVideo, new Vector2(1600, 0), new Vector2(1600, 900), 0.3f));
+
+        for (int i = 0; i < strings.Count; i++)
         {
+            soundManager.PlaySFX(SFX.TextTyping);
             isClicked = false;
-            var (str, imgNum) = strImgNums[i];
-
-
-            if (str == "Intro_4")
-                soundManager.PlaySFX(SFX.Message);
-
-            if (currentImgNum != imgNum)
-            {
-                objImgs[imgNum].SetActive(true);
-                textTyper.SetActive(false);
-                yield return new WaitForSeconds(1f);
-                currentImgNum = imgNum;
-                textTyper.SetActive(true);
-            }
-
-
-            textTyper.Play(DataManager.GetString(str));
+            string s = DataManager.GetString(strings[i]);
+            text.text = s;
+            rtText.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, text.preferredWidth + 40f);
+            text.text = "";
+            textTyper.Play(s);
             yield return new WaitUntil(() => textTyper.isTyping == false);
             soundManager.StopSFX();
             yield return new WaitForSeconds(0.3f);
             yield return new WaitUntil(() => isClicked);
         }
 
-        for (int i = 0; i < objImgs.Length - 1; i++)
-            objImgs[i].SetActive(false);
-
         gm.LoadScene(sceneName);
+
+        soundManager.PlaySFX(SFX.KaelaScreen);
+        yield return StartCoroutine(FadeManager.ChangeSize(rtVideo, new Vector2(1600, 900), new Vector2(1600, 0), 0.3f));
     }
 
     public void OnClick()

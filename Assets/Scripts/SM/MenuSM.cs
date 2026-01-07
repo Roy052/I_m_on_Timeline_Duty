@@ -27,7 +27,7 @@ public class MenuSM : SM
 
     public void OnStart()
     {
-        if (gm.isCleared)
+        if (gm.isPlayedIntro)
             gm.LoadScene(SceneName.Game);
         else
             gm.LoadScene(SceneName.Intro);

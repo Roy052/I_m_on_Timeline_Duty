@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b901eda793033c4f9546eb0cd0b18d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isCleared: 0
+  isPlayedIntro: 0
+  isClear: 0
   currentScene: 0
   languageType: 0
 --- !u!1 &2559527487693226881
@@ -356,7 +357,12 @@ MonoBehaviour:
   bgmAudioSource: {fileID: 5705078576203311387}
   sfxAudioSource: {fileID: 2946897332348662932}
   bgmClips: []
-  sfxClips: []
+  sfxClips:
+  - {fileID: 8300000, guid: b5eb2facc56fcd845ae98802613338c5, type: 3}
+  - {fileID: 8300000, guid: bc5aa10e29604e846bd6e6abd505c639, type: 3}
+  - {fileID: 8300000, guid: 56d6bc4c7e58d314c808d1e07cd3e377, type: 3}
+  - {fileID: 8300000, guid: 837608b1a6c17944dadfadc3f3e0569d, type: 3}
+  - {fileID: 8300000, guid: 8b6a5095cac106e498c60a2878e43db3, type: 3}
 --- !u!1 &4329758519811461428
 GameObject:
   m_ObjectHideFlags: 0

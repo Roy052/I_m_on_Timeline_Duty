@@ -1,6 +1,8 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.UI.Image;
 
 public class FadeManager : MonoBehaviour
 {
@@ -224,6 +226,20 @@ public class FadeManager : MonoBehaviour
         while (currentTime < time)
         {
             image.color = Color.Lerp(origin, change, currentTime / time);
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    public static IEnumerator ChangeSize(RectTransform rt, Vector2 sizeOrigin, Vector2 sizeChange, float time)
+    {
+        float currentTime = 0;
+        rt.SetSize(sizeOrigin.x, sizeOrigin.y);
+        while (currentTime < time)
+        {
+            Vector2 lerp = Vector2.Lerp(sizeOrigin, sizeChange, currentTime / time);
+            rt.SetSize(lerp.x, lerp.y);
             currentTime += Time.deltaTime;
             yield return null;
         }

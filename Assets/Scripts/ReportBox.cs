@@ -68,11 +68,13 @@ public class ReportBox : Singleton
         if (placeType == PlaceType.None || anomalyType == AnomalyType.None)
             return;
 
+        soundManager.PlaySFX(SFX.Send);
         gameSM.OnSendReport(placeType, anomalyType);
     }
 
     public void OnClickCancel()
     {
         this.SetActive(false);
+        gameSM.OnClickReportCancel();
     }
 }

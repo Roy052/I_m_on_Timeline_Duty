@@ -31,4 +31,10 @@ public static class Utilities
                                                                 out Vector2 local);
         return local;
     }
+
+    public static void SetSize(this RectTransform rt, float width, float height)
+    {
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+    }
 }

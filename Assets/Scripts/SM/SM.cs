@@ -12,9 +12,6 @@ public class SM : Singleton
     [Header("Option")]
     public OptionUI optionUI;
 
-    [Header("TutorialManager")]
-    public TutorialManager tutorialManager;
-
     protected virtual void Start()
     {
         Observer.onRefreshLanguage?.Invoke();
@@ -27,8 +24,8 @@ public class SM : Singleton
 
     IEnumerator Co_FadeOut()
     {
+        imgFade.SetActive(true);
         yield return StartCoroutine(FadeManager.FadeIn(imgFade, 1f));
-        imgFade.SetActive(false);
     }
 
     public void OpenOptionUI()
