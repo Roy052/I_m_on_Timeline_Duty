@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class ShowSM : SM
 {
@@ -29,7 +30,11 @@ public class ShowSM : SM
         {
             soundManager.PlaySFX(SFX.TextTyping);
             isClicked = false;
-            string s = DataManager.GetString(strings[i]);
+            string s = "";
+            if (this is EndSM && i == 0)
+                s = strings[i];
+            else
+                s = DataManager.GetString(strings[i]);
             text.text = s;
             rtText.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, text.preferredWidth + 40f);
             text.text = "";

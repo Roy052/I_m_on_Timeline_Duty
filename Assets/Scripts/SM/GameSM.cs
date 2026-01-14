@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -14,6 +16,8 @@ public class GameSM : SM
     [SerializeField] Text textTime;
     [SerializeField] GameObject objFixAnomaly;
     [SerializeField] Text textReportResult;
+    [SerializeField] GameObject objBtnCameraLeft;
+    [SerializeField] GameObject objBtnCameraRight;
 
     [Header("Report")]
     [SerializeField] GameObject objBtnReport;
@@ -21,18 +25,33 @@ public class GameSM : SM
     [SerializeField] Text textPending;
     [SerializeField] ReportBox reportBox;
 
+    [Header("AnimationClip")]
+    [SerializeField] List<AnimationClip> clips;
+
     [Header("Anomalies]")]
+    [SerializeField] GameObject objCameraMalfunction;
     [SerializeField] List<GameObject> objAnomalies;
+    [SerializeField] List<Material> matPaints;
     bool[] timeAnomaly = new bool[4];
+    bool[] malfunctionAnomaly = new bool[4];
+    float[] timeCameraSaw = new float[4];
+    AnomalyInfo[] intruderInfos = new AnomalyInfo[4];
+
+    [Header("Test")]
+    [SerializeField] InputField inputField;
 
     bool isGameEnd = false;
+
+    bool isWarningHappened = false;
+
+    int countAnomaly = 0;
+    int countFix = 0;
 
     public class AnomalyOccurInfo
     {
         public float time;
         public int id;
     }
-
 
     public float currentTime = 0f;
     public HashSet<int> anomalies = new HashSet<int>();
@@ -93,6 +112,16 @@ public class GameSM : SM
             }
         }
 
+        StringBuilder sb = new();
+        sb.AppendLine("~~~~~~~~~~~~~~~~~");
+        foreach(float occurTime in occurTimes)
+        {
+            int hour = (int)(occurTime * 12 / 3600);
+            int minute = (int)((occurTime * 12 % 3600) / 60);
+            sb.AppendLine($"{hour}:{minute}");
+        }
+        Debug.Log(sb.ToString());
+
         OnChangeCamera(0);
         reportBox.SetActive(false);
         objFixAnomaly.SetActive(false);
@@ -116,33 +145,39 @@ public class GameSM : SM
         //After 6 Hour, Game Clear
         if(hour >= 6)
         {
-            gm.LoadScene(SceneName.End);
-            gm.isClear = true;
-            isGameEnd = true;
+            OnGameEnd(true);
             return;
         }
 
         if (currentTime > occurTimes[currentTimeIdx])
         {
-            //If Reach 4, Game Over
-            if(anomalies.Count == 3)
-            {
-                gm.LoadScene(SceneName.End);
-                gm.isClear = false;
-                isGameEnd = true;
-                return;
-            }
-
             int idAnomaly = GetAnomalyId();
             OnOccurAnomaly(idAnomaly);
             currentTimeIdx++;
         }
+
+        timeCameraSaw[idxCurrentCamera] += Time.deltaTime;
+        if (intruderInfos[idxCurrentCamera] != null && timeCameraSaw[idxCurrentCamera] > 15f)
+        {
+            StartCoroutine(Co_IntruderRun(intruderInfos[idxCurrentCamera]));
+        }    
+
+        if(isWarningHappened == false && anomalies.Count == 3 && (occurTimes[currentTimeIdx] - currentTime  < 60f))
+        {
+            isWarningHappened = true;
+            soundManager.PlaySFX(SFX.Danger);
+        }
+
+        if(Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.D))
+            inputField.SetActive(true);
     }
 
     int idxCurrentCamera = 0;
 
     public void OnChangeCameraLeft()
     {
+        timeCameraSaw[idxCurrentCamera] = 0;
+
         if (idxCurrentCamera == 0)
             idxCurrentCamera = DataManager.countCamera - 1;
         else
@@ -153,6 +188,8 @@ public class GameSM : SM
 
     public void OnChangeCameraRight()
     {
+        timeCameraSaw[idxCurrentCamera] = 0;
+
         if (idxCurrentCamera == DataManager.countCamera - 1)
             idxCurrentCamera = 0;
         else
@@ -166,48 +203,21 @@ public class GameSM : SM
         textCamera.text = DataManager.GetString($"Label_Place_{(PlaceType)idxCurrentCamera}");
         mainCamera.transform.position = DataManager.dataCameras[idxCurrentCamera].Item1;
         mainCamera.transform.rotation = Quaternion.Euler(DataManager.dataCameras[idxCurrentCamera].Item2);
-    }
 
-    void OnOccurAnomaly(int idAnomaly)
-    {
-        var currentInfo = DataManager.dicAnomalyInfos[idAnomaly];
-        var objAnomaly = objAnomalies[currentInfo.idObject];
-        switch (currentInfo.anomalyType)
-        {
-            case AnomalyType.Intruder:
-                objAnomaly.SetActive(true);
-                break;
-            case AnomalyType.ObjectMovement:
-                objAnomaly.transform.position = new Vector3(currentInfo.changeValue1, currentInfo.changeValue2, currentInfo.changeValue3);
-                break;
-            case AnomalyType.LightAnomaly:
-                break;
-            case AnomalyType.PictureAnomaly:
-                break;
-            case AnomalyType.ObjectDisappearance:
-                objAnomaly.SetActive(false);
-                break;
-            case AnomalyType.ObjectAppearance:
-                objAnomaly.SetActive(true);
-                break;
-            case AnomalyType.Distortion:
-                break;
-            case AnomalyType.TimeAnomaly:
-                timeAnomaly[currentInfo.idObject] = true;
-                break;
-            case AnomalyType.CameraMalfunction:
-                break;
-            case AnomalyType.BeegSana:
-                break;
-            case AnomalyType.Max:
-                break;
-        }
+        objCameraMalfunction.SetActive(malfunctionAnomaly[idxCurrentCamera]);
 
-        anomalies.Add(currentInfo.id);
+        if (intruderInfos[idx] != null)
+            soundManager.PlayBGM(BGM.Heartbeat);
+        else if (malfunctionAnomaly[idxCurrentCamera])
+            soundManager.PlayBGM(BGM.CameraMalfunction);
+        else
+            soundManager.StopBGM();
     }
 
     int GetAnomalyId()
     {
+        PlaceType placeCurrentCamera = (PlaceType)idxCurrentCamera;
+
         List<int> candidates = new();
         foreach (var info in DataManager.dicAnomalyInfos)
         {
@@ -218,6 +228,10 @@ public class GameSM : SM
 
             //2.Beeg Sana Always Last
             if (currentTime < 1380 && info.Value.anomalyType == AnomalyType.BeegSana)
+                continue;
+
+            //3. Not Same Place
+            if (placeCurrentCamera == info.Value.placeType)
                 continue;
 
             candidates.Add(info.Key);
@@ -287,10 +301,12 @@ public class GameSM : SM
         //2. If Report Succeed => Fix
         else
         {
+            soundManager.PlaySFX(SFX.Fix);
             objFixAnomaly.SetActive(true);
             foreach (int fixedId in fixedIds)
                 OnFix(fixedId);
             yield return new WaitForSeconds(3f);
+            soundManager.StopSFX();
             objFixAnomaly.SetActive(false);
             StartCoroutine(Co_ShowReportResult(true));
         }
@@ -332,41 +348,170 @@ public class GameSM : SM
         textReportResult.SetActive(false);
     }
 
-    public void OnFix(int id)
+    void OnOccurAnomaly(int idAnomaly)
     {
-        var anomalyInfo = DataManager.dicAnomalyInfos[id];
+        //If Reach 4, Game Over
+        if (anomalies.Count == 3)
+        {
+            OnGameEnd(false);
+            return;
+        }
 
-        switch (anomalyInfo.anomalyType)
+        var currentInfo = DataManager.dicAnomalyInfos[idAnomaly];
+        var objAnomaly = objAnomalies[currentInfo.idObject];
+        switch (currentInfo.anomalyType)
         {
             case AnomalyType.Intruder:
+                objAnomaly.SetActive(true);
+                intruderInfos[(int)currentInfo.placeType] = currentInfo;
                 break;
             case AnomalyType.ObjectMovement:
+                objAnomaly.transform.localPosition = new Vector3(currentInfo.changeValue1, currentInfo.changeValue2, currentInfo.changeValue3);
                 break;
             case AnomalyType.LightAnomaly:
+                objAnomaly.SetActive(true);
                 break;
             case AnomalyType.PictureAnomaly:
+                MeshRenderer mr = objAnomaly.GetComponent<MeshRenderer>();
+                mr.material = matPaints[(int)currentInfo.changeValue1];
                 break;
             case AnomalyType.ObjectDisappearance:
+                objAnomaly.SetActive(false);
                 break;
             case AnomalyType.ObjectAppearance:
+                objAnomaly.SetActive(true);
                 break;
             case AnomalyType.Distortion:
+                objAnomaly.SetActive(true); //Distortion Object
                 break;
             case AnomalyType.TimeAnomaly:
+                timeAnomaly[(int)currentInfo.placeType] = true;
                 break;
             case AnomalyType.CameraMalfunction:
+                malfunctionAnomaly[(int)currentInfo.placeType] = true;
+                break;
+            case AnomalyType.MonitorAnomaly:
+                objAnomaly.SetActive(true);
+                break;
+            case AnomalyType.BeegSana:
+                objAnomaly.SetActive(true);
+                break;
+            case AnomalyType.Max:
+                break;
+        }
+
+        anomalies.Add(currentInfo.id);
+        countAnomaly++;
+
+        int hour = (int)(currentTime * 12 / 3600);
+        int minute = (int)((currentTime * 12 % 3600) / 60);
+        Debug.Log($"{countAnomaly} Anomaly : {idAnomaly}, ({hour}:{minute})");
+    }
+
+    public void OnFix(int id)
+    {
+        var currentInfo = DataManager.dicAnomalyInfos[id];
+        var objAnomaly = objAnomalies[currentInfo.idObject];
+        switch (currentInfo.anomalyType)
+        {
+            case AnomalyType.Intruder:
+                objAnomaly.SetActive(false);
+                intruderInfos[(int)currentInfo.placeType] = null;
+                break;
+            case AnomalyType.ObjectMovement:
+                objAnomaly.transform.localPosition = new Vector3(currentInfo.orginValue1, currentInfo.orginValue2, currentInfo.orginValue3);
+                break;
+            case AnomalyType.LightAnomaly:
+                objAnomaly.SetActive(false);
+                break;
+            case AnomalyType.PictureAnomaly:
+                MeshRenderer mr = objAnomaly.GetComponent<MeshRenderer>();
+                mr.material = matPaints[(int)currentInfo.orginValue1];
+                break;
+            case AnomalyType.ObjectDisappearance:
+                objAnomaly.SetActive(true);
+                break;
+            case AnomalyType.ObjectAppearance:
+                objAnomaly.SetActive(false);
+                break;
+            case AnomalyType.Distortion:
+                objAnomaly.SetActive(false);
+                break;
+            case AnomalyType.TimeAnomaly:
+                timeAnomaly[(int)currentInfo.placeType] = false;
+                break;
+            case AnomalyType.CameraMalfunction:
+                malfunctionAnomaly[(int)currentInfo.placeType] = false;
+                break;
+            case AnomalyType.MonitorAnomaly:
+                objAnomaly.SetActive(false);
                 break;
             case AnomalyType.BeegSana:
                 break;
             case AnomalyType.Max:
                 break;
         }
+
+        anomalies.Remove(id);
+
+        OnChangeCamera(idxCurrentCamera);
+        countFix++;
     }
 
+    IEnumerator Co_IntruderRun(AnomalyInfo info)
+    {
+        isGameEnd = true;
+
+        objBtnReport.SetActive(false);
+        objBtnCameraLeft.SetActive(false);
+        objBtnCameraRight.SetActive(false);
+
+        var posCamera = DataManager.dataCameras[(int)info.placeType].Item1;
+        var posEnd = new Vector3(posCamera.x, 0, posCamera.z);
+        var objAnomaly = objAnomalies[info.idObject];
+
+        Animator animator = objAnomaly.GetComponent<Animator>();
+        animator.SetBool("IsRun", true);
+
+        var transform = objAnomaly.transform;
+        var posStart = transform.localPosition;
+
+        float time = 0f;
+        while(time < 1f)
+        {
+            transform.localPosition = Vector3.Lerp(posStart, posEnd, time);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        OnGameEnd(false);
+    }
+
+    void OnGameEnd(bool isClear)
+    {
+        GameResult gameResult = new GameResult()
+        {
+            isClear = isClear,
+            countAnomaly = countAnomaly,
+            countFix = countFix,
+            notFixed = anomalies.ToList()
+        };
+        gm.gameResult = gameResult;
+        soundManager.StopBGM();
+        soundManager.StopSFX();
+        gm.LoadScene(SceneName.End);
+        isGameEnd = true;
+    }
+    
 
     //Test
     public void OnOccurTest(int id)
     {
         OnOccurAnomaly(id);
+    }
+
+    public void OnClickTestInputField()
+    {
+        OnOccurTest(int.Parse(inputField.text));
     }
 }

@@ -16,7 +16,7 @@ public enum PlaceType
 
 public enum AnomalyType
 {
-    None,
+    None = -1,
     Intruder,
     ObjectMovement,
     LightAnomaly,
@@ -26,6 +26,7 @@ public enum AnomalyType
     Distortion,
     TimeAnomaly,
     CameraMalfunction,
+    MonitorAnomaly,
     BeegSana,
     Max
 }
@@ -64,8 +65,422 @@ public static class DataManager
         {
             id = 0,
             placeType = PlaceType.Office,
+            anomalyType = AnomalyType.LightAnomaly,
+            idObject = 0,
+        } },
+        {1, new AnomalyInfo()
+        {
+            id = 1,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.LightAnomaly,
+            idObject = 1,
+        } },
+        {2, new AnomalyInfo()
+        {
+            id = 2,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.LightAnomaly,
+            idObject = 2,
+        } },
+        {3, new AnomalyInfo()
+        {
+            id = 3,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.LightAnomaly,
+            idObject = 3,
+        } },
+        {4, new AnomalyInfo()
+        {
+            id = 4,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.CameraMalfunction,
+        } },
+        {5, new AnomalyInfo()
+        {
+            id = 5,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.CameraMalfunction,
+        } },
+        {6, new AnomalyInfo()
+        {
+            id = 6,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.CameraMalfunction,
+        } },
+        {7, new AnomalyInfo()
+        {
+            id = 7,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.CameraMalfunction,
+            idObject = 3,
+        } },
+        {8, new AnomalyInfo()
+        {
+            id = 8,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.Distortion,
+            idObject = 8,
+        } },
+        {9, new AnomalyInfo()
+        {
+            id = 9,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.Distortion,
+            idObject = 9,
+        } },
+        {10, new AnomalyInfo()
+        {
+            id = 10,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.Distortion,
+            idObject = 10,
+        } },
+        {11, new AnomalyInfo()
+        {
+            id = 11,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.Distortion,
+            idObject = 11,
+        } },
+        {12, new AnomalyInfo()
+        {
+            id = 12,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 12,
+        } },
+        {13, new AnomalyInfo()
+        {
+            id = 13,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 13,
+        } },
+        {14, new AnomalyInfo()
+        {
+            id = 14,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 14,
+        } },
+        {15, new AnomalyInfo()
+        {
+            id = 15,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 15,
+        } },
+        {16, new AnomalyInfo()
+        {
+            id = 16,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.PictureAnomaly,
+            idObject = 16,
+            orginValue1 = 0,
+            changeValue1 = 2,
+        } },
+        {17, new AnomalyInfo()
+        {
+            id = 17,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.PictureAnomaly,
+            idObject = 17,
+            orginValue1 = 1,
+            changeValue1 = 5,
+        } },
+        {18, new AnomalyInfo()
+        {
+            id = 18,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.PictureAnomaly,
+            idObject = 18,
+            orginValue1 = 0,
+            changeValue1 = 6,
+        } },
+        {19, new AnomalyInfo()
+        {
+            id = 19,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.PictureAnomaly,
+            idObject = 19,
+            orginValue1 = 1,
+            changeValue1 = 7,
+        } },
+        {20, new AnomalyInfo()
+        {
+            id = 20,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.PictureAnomaly,
+            idObject = 20,
+            orginValue1 = 4,
+            changeValue1 = 8,
+        } },
+        {21, new AnomalyInfo()
+        {
+            id = 21,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.PictureAnomaly,
+            idObject = 21,
+            orginValue1 = 4,
+            changeValue1 = 9,
+        } },
+        {22, new AnomalyInfo()
+        {
+            id = 22,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 22,
+            orginValue1 = 0,
+            orginValue2 = 13.8f,
+            orginValue3 = -8.3f,
+            changeValue1 = 0,
+            changeValue2 = 13.8f,
+            changeValue3 = -7.3f,
+        } },
+        {23, new AnomalyInfo()
+        {
+            id = 23,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 23,
+        } },
+        {24, new AnomalyInfo()
+        {
+            id = 24,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 24,
+            orginValue1 = -4.88f,
+            orginValue2 = 13.89f,
+            orginValue3 = -7.85f,
+            changeValue1 = -4.88f,
+            changeValue2 = 13.89f,
+            changeValue3 = -7.36f,
+        } },
+        {25, new AnomalyInfo()
+        {
+            id = 25,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 25,
+        } },
+        {26, new AnomalyInfo()
+        {
+            id = 26,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 26,
+        } },
+        {27, new AnomalyInfo()
+        {
+            id = 27,
+            placeType = PlaceType.Office,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 27,
+        } },
+        {28, new AnomalyInfo()
+        {
+            id = 28,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 28,
+        } },
+        {29, new AnomalyInfo()
+        {
+            id = 29,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 29,
+        } },
+        {30, new AnomalyInfo()
+        {
+            id = 30,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 30,
+        } },
+        {31, new AnomalyInfo()
+        {
+            id = 31,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 31,
+            orginValue1 = 6.54f,
+            orginValue2 = 13.4f,
+            orginValue3 = -5.86f,
+            changeValue1 = 6.54f,
+            changeValue2 = 13.4f,
+            changeValue3 = -6.4f,
+        } },
+        {32, new AnomalyInfo()
+        {
+            id = 32,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 32,
+            orginValue1 = 8.8f,
+            orginValue2 = 1.35f,
+            orginValue3 = -6.8f,
+            changeValue1 = 8.8f,
+            changeValue2 = 1.35f,
+            changeValue3 = -8.6f,
+        } },
+        {33, new AnomalyInfo()
+        {
+            id = 33,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 33,
+        } },
+        {34, new AnomalyInfo()
+        {
+            id = 34,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.MonitorAnomaly,
+            idObject = 34,
+        } },
+        {35, new AnomalyInfo()
+        {
+            id = 35,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 35,
+        } },
+        {36, new AnomalyInfo()
+        {
+            id = 36,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 36,
+        } },
+        {37, new AnomalyInfo()
+        {
+            id = 37,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 37,
+        } },
+        {38, new AnomalyInfo()
+        {
+            id = 38,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 38,
+            orginValue1 = 5.73f,
+            orginValue2 = 1.66f,
+            orginValue3 = 1.86f,
+            changeValue1 = 7.09f,
+            changeValue2 = 1.66f,
+            changeValue3 = 1.86f,
+        } },
+        {39, new AnomalyInfo()
+        {
+            id = 39,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 39,
+            orginValue1 = 6.24f,
+            orginValue2 = 0.33f,
+            orginValue3 = 1.35f,
+            changeValue1 = 5.58f,
+            changeValue2 = 0.33f,
+            changeValue3 = 1.35f,
+        } },
+        {40, new AnomalyInfo()
+        {
+            id = 40,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 40,
+            orginValue1 = 4.48f,
+            orginValue2 = 13.85f,
+            orginValue3 = 1.93f,
+            changeValue1 = 3.8f,
+            changeValue2 = 13.85f,
+            changeValue3 = 1.93f,
+        } },
+        {41, new AnomalyInfo()
+        {
+            id = 41,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 41,
+        } },
+        {42, new AnomalyInfo()
+        {
+            id = 42,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 42,
+        } },
+        {43, new AnomalyInfo()
+        {
+            id = 43,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.ObjectDisappearance,
+            idObject = 43,
+        } },
+        {44, new AnomalyInfo()
+        {
+            id = 44,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.ObjectAppearance,
+            idObject = 44,
+        } },
+        {45, new AnomalyInfo()
+        {
+            id = 45,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 45,
+            orginValue1 = -3.39f,
+            orginValue2 = 13.85f,
+            orginValue3 = 8.29f,
+            changeValue1 = -3.39f,
+            changeValue2 = 13.85f,
+            changeValue3 = 7.56f,
+        } },
+        {46, new AnomalyInfo()
+        {
+            id = 46,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.ObjectMovement,
+            idObject = 46,
+            orginValue1 = -0.47f,
+            orginValue2 = 1.88f,
+            orginValue3 = 11.34f,
+            changeValue1 = -1.35f,
+            changeValue2 = 1.88f,
+            changeValue3 = 11.34f,
+        } },
+        {47, new AnomalyInfo()
+        {
+            id = 47,
+            placeType = PlaceType.Office,
             anomalyType = AnomalyType.Intruder,
-        } }
+            idObject = 47,
+        } },
+        {48, new AnomalyInfo()
+        {
+            id = 48,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.Intruder,
+            idObject = 48,
+        } },
+        {49, new AnomalyInfo()
+        {
+            id = 49,
+            placeType = PlaceType.Entrance,
+            anomalyType = AnomalyType.Intruder,
+            idObject = 49,
+        } },
+        {50, new AnomalyInfo()
+        {
+            id = 50,
+            placeType = PlaceType.Storage,
+            anomalyType = AnomalyType.Intruder,
+            idObject = 50,
+        } },
     };
 
     public static string[] tutorialStr_Camera_Move = new string[]
@@ -118,6 +533,7 @@ public static class DataManager
         {"Label_Anomaly_Distortion", new() { "Distortion", "공간왜곡", "空間歪曲" } },
         {"Label_Anomaly_TimeAnomaly", new() { "Time Anomaly", "시간 이상 현상", "時間異常" } },
         {"Label_Anomaly_CameraMalfunction", new() { "Camera Malfunction", "카메라 오작동", "カメラの誤作動" } },
+        {"Label_Anomaly_MonitorAnomaly", new() { "Monitor Anomaly", "모니터 이상 현상", "モニター異常" } },
         {"Label_Anomaly_BeegSana", new() { "!!Beeg Sana!!", "!!Beeg Sana!!", "!!Beeg Sana!!" } },
 
         //Btns
@@ -158,16 +574,49 @@ public static class DataManager
         { "Intro_9", new() { "we recommend switching to another camera feed before filing your report.", "다른 화면으로 이동해서 보고하는 걸 추천드리지.", "別の映像に切り替えてから報告することを推奨する。" } },
         { "Intro_10", new() { "Good luck.", "그럼 행운을 빌겠네.", "幸運を祈る。" } },
 
+        { "Ending_Result", new() { "You have fixed _2_ out of _1_ anomalies.", "_1_개의 이상 현상 중 _2_개를 해결했군.", "_1_件の異常現象のうち、_2_件を解決した。" } },
+
         { "Ending_GameOver_1", new() { "You have failed the mission, Agent K.", "임무에 실패했군 요원 K.", "任務に失敗したな、エージェントK。" } },
         { "Ending_GameOver_2", new() { "Please be more attentive next time.", "다음엔 조금 더 신경써주게.", "次はもう少し注意してくれ。" } },
 
         { "Ending_GameEnd_1", new() { "The process has been completed.", "작업이 완료되었네.", "作業は完了した。" } },
         { "Ending_GameEnd_2", new() { "Thank you for your service, Agent K.", "감사를 표하지 요원 K.", "感謝する、エージェントK。" } },
+
+        { "ESCtoClose", new() { "Press ESC to close the window", "ESC를 눌러 창 닫기", "ESCキーを押してウィンドウを閉じる" } },
+        { "ClicktoClose", new() { "Click to close the window", "클릭하여 창 닫기", "クリックしてウィンドウを閉じる" } },
+        { "Label_Menu", new() { "Menu", "메뉴", "メニュー" } },
     };
 
-    public static List<(string, string, string)> credits = new()
+    //(Model Name, User Name, Address, CC)
+    public static List<(string, string, string, string)> credits = new()
     {
-        ("A", "B", "C")
+        ("Canonical Hologra Office", "Aeri", "https://skfb.ly/oTyAG", "Creative Commons Attribution"),
+        ("Shuba Duck Dinghy", "BobbieVR", "https://skfb.ly/o7uYH", "Creative Commons Attribution"),
+        ("Sakura Miko Raft", "BobbieVR", "https://skfb.ly/o7uZF", "Creative Commons Attribution"),
+        ("Japanese Tea Cup", "Sam Feng", "https://skfb.ly/6Trov", "Creative Commons Attribution-NonCommercial"),
+        ("Japanese snack Dango handpainted", "Bunkichi80", "https://skfb.ly/oz7rp", "Creative Commons Attribution"),
+        ("Picture Frame", "Xander Morningstar", "https://skfb.ly/6RDqw", "Creative Commons Attribution"),
+        ("Moai", "AtheneaAtlas", "https://skfb.ly/pzDpP", "Creative Commons Attribution-NonCommercial"),
+        ("Danganronpa Megaphone Hacking Gun", "Spellkaze", "https://skfb.ly/6WMSx", "Creative Commons Attribution"),
+        ("Trash-bin", "Dailsave", "https://skfb.ly/oWuOF", "Free Standard"),
+        ("Low Poly | Wall Clock", "VyrianStudios", "https://skfb.ly/6XTut", "Creative Commons Attribution"),
+        ("Broom PSX", "Bonvikt", "https://skfb.ly/pwrps", "Creative Commons Attribution"),
+        ("Chattini Model", "GustavoMagno", "https://skfb.ly/p86ru", "Creative Commons Attribution"),
+        ("Fubuki Shirakami Sukonbu", "Ikxi", "https://skfb.ly/ooCSW", "Creative Commons Attribution-NonCommercial"),
+        ("[Hololive EN] Baelz's Baerats", "Welloy", "https://skfb.ly/o9oSv", "Creative Commons Attribution"),
+        ("Poyoyo1 - Nakiri Ayame", "drei_icari", "https://skfb.ly/oJJ7B", "Creative Commons Attribution"),
+        ("Houshou Marine Pirate Ship", "BobbieVR", "https://skfb.ly/o7uYp", "Creative Commons Attribution"),
+        ("fire extinguisher", "Lilith", "https://skfb.ly/p8Ixo", "Creative Commons Attribution"),
+        ("1990s Low Poly Camera", "elomation", "https://skfb.ly/oxr7C", "Creative Commons Attribution"),
+        ("Low Poly Cartoon Football Ball Free", "chroma3d", "https://skfb.ly/6UyIM", "Creative Commons Attribution"),
+        ("Water Cooler", "小林 団那紀", "https://skfb.ly/puOIu", "Free Standard"),
+        ("Unbranded conventional Fridge", "assetfactory", "https://skfb.ly/o6WVw", "Free Standard"),
+
+        ("ハコス・ベールズ Hololive MMD", "Hololive Production", "https://3d.nicovideo.jp/works/td94990",  "Cover Corp."),
+        ("ラプラス・ダークネス Hololive MMD",  "Hololive Production", "https://3d.nicovideo.jp/works/td84838",  "Cover Corp."),
+        ("常闇トワ Hololive MMD",  "Hololive Production", "https://3d.nicovideo.jp/works/td84870",  "Cover Corp."),
+        ("フワワ・アビスガード Hololive MMD",  "Hololive Production", "https://3d.nicovideo.jp/works/td84838",  "Cover Corp."),
+
     };
 
     public static string GetString(string label, params string[] arr)

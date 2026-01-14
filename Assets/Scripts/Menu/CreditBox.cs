@@ -9,8 +9,8 @@ public class CreditBox : MonoBehaviour
     public void Set()
     {
         StringBuilder sb = new();
-        foreach(var (modelName, userName, address) in DataManager.credits)
-            sb.AppendLine($"\"{modelName}\" by {userName} ({address}) - CC-BY 4.0");
+        foreach(var (modelName, userName, address, cc) in DataManager.credits)
+            sb.AppendLine($"\"{modelName}\" by {userName} ({address}) - {cc}");
         text.text = sb.ToString();
     }
 

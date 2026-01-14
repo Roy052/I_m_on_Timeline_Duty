@@ -356,13 +356,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmAudioSource: {fileID: 5705078576203311387}
   sfxAudioSource: {fileID: 2946897332348662932}
-  bgmClips: []
+  bgmClips:
+  - {fileID: 8300000, guid: ed6304aff51f65f42940336e247b14fa, type: 3}
+  - {fileID: 8300000, guid: 19767d4c3a7914e42ad6cff285c9ae0a, type: 3}
   sfxClips:
   - {fileID: 8300000, guid: b5eb2facc56fcd845ae98802613338c5, type: 3}
   - {fileID: 8300000, guid: bc5aa10e29604e846bd6e6abd505c639, type: 3}
   - {fileID: 8300000, guid: 56d6bc4c7e58d314c808d1e07cd3e377, type: 3}
   - {fileID: 8300000, guid: 837608b1a6c17944dadfadc3f3e0569d, type: 3}
   - {fileID: 8300000, guid: 8b6a5095cac106e498c60a2878e43db3, type: 3}
+  - {fileID: 8300000, guid: ba66a1e0bba066f478d7604410b0559d, type: 3}
 --- !u!1 &4329758519811461428
 GameObject:
   m_ObjectHideFlags: 0

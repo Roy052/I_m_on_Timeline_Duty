@@ -3,10 +3,9 @@ using UnityEngine;
 
 public enum BGM
 {
-    Menu,
-    Duel,
-    Round,
-    Upgrade,
+    None = -1,
+    Heartbeat,
+    CameraMalfunction,
 }
 
 public enum SFX
@@ -17,6 +16,7 @@ public enum SFX
     KaelaScreen,
     Danger,
     Send,
+    Fix,
 }
 
 public class SoundManager : Singleton
@@ -56,6 +56,9 @@ public class SoundManager : Singleton
 
     public void PlayBGM(BGM bgm)
     {
+        if (bgm == BGM.None)
+            return;
+
         if (bgmClips.Length <= (int)bgm || bgmClips[(int)bgm] == null)
         {
             Debug.LogError($"BGM {bgm} Not Exist");

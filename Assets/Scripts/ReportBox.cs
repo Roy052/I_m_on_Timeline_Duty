@@ -55,12 +55,12 @@ public class ReportBox : Singleton
 
     public void SelectPlace(int value)
     {
-        placeType = (PlaceType)value;
+        placeType = (PlaceType)(value - 1);
     }
 
     public void SelectAnomaly(int value)
     {
-        anomalyType = (AnomalyType)value;
+        anomalyType = (AnomalyType)(value - 1);
     }
 
     public void OnClickSend()
@@ -70,6 +70,8 @@ public class ReportBox : Singleton
 
         soundManager.PlaySFX(SFX.Send);
         gameSM.OnSendReport(placeType, anomalyType);
+        dropDownPlace.value = 0;
+        dropdownAnomaly.value = 0;
     }
 
     public void OnClickCancel()

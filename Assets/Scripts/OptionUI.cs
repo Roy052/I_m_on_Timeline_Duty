@@ -58,4 +58,14 @@ public class OptionUI : Singleton
         PlayerPrefs.SetInt(GameManager.LaunguageKey, value);
         Observer.onRefreshLanguage?.Invoke();
     }
+
+    public void OnClickHome()
+    {
+        gm.LoadScene(SceneName.Menu);
+    }
+
+    public void OnClickQuit()
+    {
+        Application.Quit();
+    }
 }

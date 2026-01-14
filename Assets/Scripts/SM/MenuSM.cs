@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MenuSM : SM
 {
     [SerializeField] CreditBox creditBox;
+    [SerializeField] List<GameObject> objImgs;
 
     public void Awake()
     {
@@ -22,11 +24,27 @@ public class MenuSM : SM
     protected override void Start()
     {
         base.Start();
-        soundManager.PlayBGM(BGM.Menu);
+        changeTime = Random.Range(2f, 3f);
+    }
+
+    float time = 0f;
+    float changeTime = 0f;
+    private void Update()
+    {
+        time += Time.deltaTime;
+
+        if (time > changeTime)
+        {
+            int front = Random.Range(0, objImgs.Count);
+            objImgs[front].transform.SetAsLastSibling();
+            changeTime = Random.Range(2f, 3f);
+            time = 0f;
+        }
     }
 
     public void OnStart()
     {
+        gm.gameResult = null;
         if (gm.isPlayedIntro)
             gm.LoadScene(SceneName.Game);
         else

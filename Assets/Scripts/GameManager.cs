@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum SceneName
 {
@@ -16,13 +18,22 @@ public enum LanguageType
     Kor,
 }
 
+[Serializable]
+public class GameResult
+{
+    public bool isClear;
+    public int countAnomaly;
+    public int countFix;
+    public List<int> notFixed = new();
+}
+
 public class GameManager : Singleton
 {
     public const string LaunguageKey = "LanguageType";
     public const string IsPlayedIntro = "IsPlayedIntro";
 
     public bool isPlayedIntro = false;
-    public bool isClear = false; //Current Game Clear
+    public GameResult gameResult;
     public SceneName currentScene;
     public LanguageType languageType;
 
