@@ -33,7 +33,7 @@
   </div>
   <div>
     <h2> 배운 점 </h2>
-    Custom Shader를 활용해 다양한 화면 효과를 만들어보았다.(Noise, Distortion) <br><br>
+    Shader Graph를 활용해 다양한 화면 효과를 만들어보았다.(Noise, Distortion) <br><br>
     MMD 모델을 블렌더를 통해 VRM 모델로 바꾸고 그걸 Unity에 import하는 방법을 배웠다. <br><br>
     
   </div>
