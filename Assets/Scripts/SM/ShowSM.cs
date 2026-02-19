@@ -23,6 +23,8 @@ public class ShowSM : SM
     bool isClicked = false;
     IEnumerator PlayDialogs()
     {
+        yield return new WaitForSeconds(1f);
+
         soundManager.PlaySFX(SFX.KaelaScreen);
         yield return StartCoroutine(FadeManager.ChangeSize(rtVideo, new Vector2(1600, 0), new Vector2(1600, 900), 0.3f));
 

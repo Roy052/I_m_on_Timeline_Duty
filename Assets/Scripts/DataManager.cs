@@ -49,6 +49,7 @@ public class AnomalyInfo
 public static class DataManager
 {
     public static int countCamera = 4;
+    public static int idBeegSana = 51;
 
     //(Position, Rotation)
     public static List<(Vector3, Vector3)> dataCameras = new()
@@ -481,6 +482,16 @@ public static class DataManager
             anomalyType = AnomalyType.Intruder,
             idObject = 50,
         } },
+        {51, new AnomalyInfo()
+        {
+            id = 51,
+            placeType = PlaceType.Lounge,
+            anomalyType = AnomalyType.BeegSana,
+            idObject = 51,
+            changeValue1 = 6,
+            changeValue2 = 0.5f,
+            changeValue3 = -7.6f,
+        } },
     };
 
     public static string[] tutorialStr_Camera_Move = new string[]
@@ -557,6 +568,7 @@ public static class DataManager
 
         {"Message_Anomaly_Fixed", new() {"Anomaly Fixed", "이상 현상 해결", "異常現象解決" } },
         {"Message_Anomaly_Not_Found", new() {"No anomaly of type \'_2_\' found in \'_1_\'.", "\'_1_\'에서 \'_2_\'이라는 이상 현상은 발견되지 않았습니다.", "「_1_」において「_2_」の異常現象は確認されませんでした。" } },
+        {"Message_Anomaly_Fix_Fail", new() { "Failed to fix anomaly", "이상 현상 해결에 실패했습니다.", "異常の解決に失敗しました。" } },
 
 
         { "Language", new() { "Language", "언어", "言語" } },
@@ -611,12 +623,13 @@ public static class DataManager
         ("Low Poly Cartoon Football Ball Free", "chroma3d", "https://skfb.ly/6UyIM", "Creative Commons Attribution"),
         ("Water Cooler", "小林 団那紀", "https://skfb.ly/puOIu", "Free Standard"),
         ("Unbranded conventional Fridge", "assetfactory", "https://skfb.ly/o6WVw", "Free Standard"),
+        ("YouTube Play Button Gold And Silver", "Priyanshah", "https://skfb.ly/o8V7M", "Creative Commons Attribution"),
 
         ("ハコス・ベールズ Hololive MMD", "Hololive Production", "https://3d.nicovideo.jp/works/td94990",  "Cover Corp."),
         ("ラプラス・ダークネス Hololive MMD",  "Hololive Production", "https://3d.nicovideo.jp/works/td84838",  "Cover Corp."),
         ("常闇トワ Hololive MMD",  "Hololive Production", "https://3d.nicovideo.jp/works/td84870",  "Cover Corp."),
         ("フワワ・アビスガード Hololive MMD",  "Hololive Production", "https://3d.nicovideo.jp/works/td84838",  "Cover Corp."),
-
+        ("BEEGSmol CouncilRyS! - Hololive EN",  "@tsukumosana, @seafoamboi", "https://skfb.ly/owwur",  "Creative Commons Attribution-NonCommercial"),
     };
 
     public static string GetString(string label, params string[] arr)
@@ -625,20 +638,10 @@ public static class DataManager
         if (texts == null)
             return "";
 
-        int idx = 0;
         string text = texts[(int)Singleton.gm.languageType];
-        string result = Regex.Replace(
-            text,
-            @"_(\d+)_",
-            match =>
-            {
-                if (idx >= arr.Length)
-                    return "";
+        for(int i = 0; i < arr.Length; i++)
+            text = text.Replace($"_{i + 1}_", arr[i]);
 
-                return arr[idx++];
-            },
-            RegexOptions.CultureInvariant);
-
-        return result;
+        return text;
     }
 }

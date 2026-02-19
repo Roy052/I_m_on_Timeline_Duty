@@ -15,6 +15,7 @@ public class OptionUI : Singleton
     float bgmVolumeValue = 1f;
     float sfxVolumeValue = 1f;
 
+    bool isSceneChanging = false;
 
     private void OnDisable()
     {
@@ -61,6 +62,10 @@ public class OptionUI : Singleton
 
     public void OnClickHome()
     {
+        if (isSceneChanging)
+            return;
+
+        isSceneChanging = true;
         gm.LoadScene(SceneName.Menu);
     }
 

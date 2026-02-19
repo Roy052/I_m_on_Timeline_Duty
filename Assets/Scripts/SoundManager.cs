@@ -17,12 +17,14 @@ public enum SFX
     Danger,
     Send,
     Fix,
+    BeegSana,
 }
 
 public class SoundManager : Singleton
 {
     public AudioSource bgmAudioSource;
     public AudioSource sfxAudioSource;
+    public AudioSource sfxAudioSource2;
 
     public AudioClip[] bgmClips;
     public AudioClip[] sfxClips;
@@ -52,6 +54,7 @@ public class SoundManager : Singleton
     {
         currentSfxVolume = volume;
         sfxAudioSource.volume = volume;
+        sfxAudioSource2.volume = volume;
     }
 
     public void PlayBGM(BGM bgm)
@@ -101,6 +104,12 @@ public class SoundManager : Singleton
         }
         sfxAudioSource.clip = sfxClips[(int)sfx];
         sfxAudioSource.Play();
+    }
+
+    public void PlaySFXWarning()
+    {
+        sfxAudioSource2.clip = sfxClips[(int)SFX.Danger];
+        sfxAudioSource2.Play();
     }
 
     Coroutine co_Fade_Sfx = null;

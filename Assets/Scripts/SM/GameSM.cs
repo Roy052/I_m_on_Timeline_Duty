@@ -82,8 +82,8 @@ public class GameSM : SM
         gm.SetIntroPlayed();
 
         int countAnomalyOverAll = Random.Range(25, 29);
-        int[] countAnomalies = new int[6] { 2, 3, 4, 4, 5, 6 };
-        int sum = 24; // 2 + 3 + 4 + 4 + 5 + 6
+        int[] countAnomalies = new int[6] { 3, 3, 4, 4, 5, 6 };
+        int sum = 25; // 2 + 3 + 4 + 4 + 5 + 6
 
         // More Percentage for Last
         for(int j = countAnomalyOverAll - sum; j >= 0; j--)
@@ -149,7 +149,7 @@ public class GameSM : SM
             return;
         }
 
-        if (currentTime > occurTimes[currentTimeIdx])
+        if (currentTimeIdx < occurTimes.Count && currentTime > occurTimes[currentTimeIdx])
         {
             int idAnomaly = GetAnomalyId();
             OnOccurAnomaly(idAnomaly);
@@ -165,7 +165,7 @@ public class GameSM : SM
         if(isWarningHappened == false && anomalies.Count == 3 && (occurTimes[currentTimeIdx] - currentTime  < 60f))
         {
             isWarningHappened = true;
-            soundManager.PlaySFX(SFX.Danger);
+            soundManager.PlaySFXWarning();
         }
 
         if(Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.D))
@@ -225,13 +225,16 @@ public class GameSM : SM
             if (anomalies.Contains(info.Key))
                 continue;
 
-
             //2.Beeg Sana Always Last
-            if (currentTime < 1380 && info.Value.anomalyType == AnomalyType.BeegSana)
+            if (currentTimeIdx != occurTimes.Count - 1 && info.Value.anomalyType == AnomalyType.BeegSana)
                 continue;
 
             //3. Not Same Place
             if (placeCurrentCamera == info.Value.placeType)
+                continue;
+
+            //4. Not 35 and 41 Both Exist
+            if ((anomalies.Contains(35) && info.Key == 41) || (anomalies.Contains(41) && info.Key == 35))
                 continue;
 
             candidates.Add(info.Key);
@@ -292,8 +295,30 @@ public class GameSM : SM
                 fixedIds.Add(id);
         }
 
+        //0. If BeegSana First
+        if(anomalies.Contains(DataManager.idBeegSana) && placeType == PlaceType.Lounge && anomalyType == AnomalyType.Intruder)
+        {
+            co_SendReport = null;
+            reportBox.AddBeegSana();
+            var info = DataManager.dicAnomalyInfos[DataManager.idBeegSana];
+            objAnomalies[info.idObject].transform.localPosition = new Vector3(info.changeValue1, info.changeValue2, info.changeValue3);
+
+            //Fix
+            soundManager.PlaySFX(SFX.Fix);
+            objFixAnomaly.SetActive(true);
+            yield return new WaitForSeconds(3f);
+            soundManager.StopSFX();
+            objFixAnomaly.SetActive(false);
+            StartCoroutine(Co_ShowReportResult(false, placeType, anomalyType));
+        }
+        //0. If BeegSana Second
+        else if (anomalies.Contains(DataManager.idBeegSana) && placeType == PlaceType.Lounge && anomalyType == AnomalyType.BeegSana)
+        {
+            foreach (int fixedId in fixedIds)
+                OnFix(fixedId);
+        }
         //1. If Report Failed
-        if (fixedIds.Count == 0)
+        else if (fixedIds.Count == 0)
         {
             co_SendReport = null;
             StartCoroutine(Co_ShowReportResult(false, placeType, anomalyType));
@@ -339,6 +364,8 @@ public class GameSM : SM
 
         if(isSuccess)
             textReportResult.text = DataManager.GetString("Message_Anomaly_Fixed");
+        else if(anomalyType == AnomalyType.BeegSana)
+            textReportResult.text = DataManager.GetString("Message_Anomaly_Fix_Fail");
         else
             textReportResult.text = DataManager.GetString("Message_Anomaly_Not_Found", DataManager.GetString($"Label_Place_{placeType}"), DataManager.GetString($"Label_Anomaly_{anomalyType}"));
         
@@ -447,6 +474,7 @@ public class GameSM : SM
                 objAnomaly.SetActive(false);
                 break;
             case AnomalyType.BeegSana:
+                StartCoroutine(Co_BeegSana());
                 break;
             case AnomalyType.Max:
                 break;
@@ -460,11 +488,15 @@ public class GameSM : SM
 
     IEnumerator Co_IntruderRun(AnomalyInfo info)
     {
+        yield return null;
+
         isGameEnd = true;
 
         objBtnReport.SetActive(false);
         objBtnCameraLeft.SetActive(false);
         objBtnCameraRight.SetActive(false);
+        textTime.SetActive(false);
+        textCamera.SetActive(false);
 
         var posCamera = DataManager.dataCameras[(int)info.placeType].Item1;
         var posEnd = new Vector3(posCamera.x, 0, posCamera.z);
@@ -485,6 +517,32 @@ public class GameSM : SM
         }
 
         OnGameEnd(false);
+    }
+
+    IEnumerator Co_BeegSana()
+    {
+        yield return null;
+
+        isGameEnd = true;
+
+        objBtnReport.SetActive(false);
+        objBtnCameraLeft.SetActive(false);
+        objBtnCameraRight.SetActive(false);
+        textTime.SetActive(false);
+        textCamera.SetActive(false);
+
+        float shakeTime = 0f;
+        soundManager.PlaySFX(SFX.BeegSana);
+        Vector3 originRotation = DataManager.dataCameras[idxCurrentCamera].Item2;
+        while (shakeTime < 5f)
+        {
+            var currentRotation = originRotation + new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), Random.Range(-5f, 5f));
+            mainCamera.transform.rotation = Quaternion.Euler(currentRotation);
+            yield return new WaitForSeconds(0.1f);
+            shakeTime += 0.1f;
+        }
+
+        OnGameEnd(true);
     }
 
     void OnGameEnd(bool isClear)

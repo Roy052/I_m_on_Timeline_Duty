@@ -54,6 +54,10 @@ public class GameManager : Singleton
         isPlayedIntro = PlayerPrefs.GetInt(IsPlayedIntro, 0) != 0;
         languageType = (LanguageType)PlayerPrefs.GetInt(LaunguageKey, 0);
         Observer.onRefreshLanguage?.Invoke();
+
+        //Frame
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
     }
 
     private void Update()

@@ -29,6 +29,8 @@ public class MenuSM : SM
 
     float time = 0f;
     float changeTime = 0f;
+    int beforeFront = 0;
+
     private void Update()
     {
         time += Time.deltaTime;
@@ -36,6 +38,10 @@ public class MenuSM : SM
         if (time > changeTime)
         {
             int front = Random.Range(0, objImgs.Count);
+            while(front == beforeFront)
+                front = Random.Range(0, objImgs.Count);
+
+            beforeFront = front;
             objImgs[front].transform.SetAsLastSibling();
             changeTime = Random.Range(2f, 3f);
             time = 0f;
