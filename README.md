@@ -23,13 +23,13 @@
   <div>
     <h2> 게임 스크린샷 </h2>
       <table>
-        <td><img src = "https://img.itch.zone/aW1hZ2UvNDE5MzEwOS8yNDk5MTY5MC5wbmc=/347x500/uejaCG.png"></td>
-        <td><img src = "https://img.itch.zone/aW1hZ2UvNDE5MzEwOS8yNDk5MTY4OS5wbmc=/347x500/Y8FbMi.png"></td>
+        <td><img src = "https://img.itch.zone/aW1hZ2UvNDE5MzEwOS8yNTY2ODgxMC5qcGc=/347x500/pYnvae.jpg"></td>
+        <td><img src = "https://img.itch.zone/aW1hZ2UvNDE5MzEwOS8yNTY2ODgwOS5qcGc=/347x500/7RkyHY.jpg"></td>
       </table>
   </div>
     <div>
     <h2> 게임 플레이 영상 </h2>
-    
+    https://youtu.be/Yu9oD-URYQQ
   </div>
   <div>
     <h2> 배운 점 </h2>
