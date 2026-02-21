@@ -67,6 +67,7 @@ public class OptionUI : Singleton
 
         isSceneChanging = true;
         gm.LoadScene(SceneName.Menu);
+        gameObject.SetActive(false);
     }
 
     public void OnClickQuit()

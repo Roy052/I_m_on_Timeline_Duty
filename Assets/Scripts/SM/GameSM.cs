@@ -62,6 +62,7 @@ public class GameSM : SM
             return;
 
         gameSM = this;
+        Observer.onRefreshLanguage += OnChangeLanguage;
     }
 
     private void OnDestroy()
@@ -70,6 +71,7 @@ public class GameSM : SM
             return;
 
         gameSM = null;
+        Observer.onRefreshLanguage -= OnChangeLanguage;
     }
 
     List<float> occurTimes = new();
@@ -126,6 +128,10 @@ public class GameSM : SM
         reportBox.SetActive(false);
         objFixAnomaly.SetActive(false);
         textReportResult.SetActive(false);
+
+        //Test
+        //currentTimeIdx = occurTimes.Count - 1;
+        //currentTime = occurTimes[currentTimeIdx] + 40;
     }
 
     private void Update()
@@ -170,12 +176,19 @@ public class GameSM : SM
 
         if(Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.T) && Input.GetKey(KeyCode.D))
             inputField.SetActive(true);
+
+        //Left Camera To Key
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            OnChangeCameraLeft();
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            OnChangeCameraRight();
     }
 
     int idxCurrentCamera = 0;
 
     public void OnChangeCameraLeft()
     {
+        soundManager.PlaySFX(SFX.Click);
         timeCameraSaw[idxCurrentCamera] = 0;
 
         if (idxCurrentCamera == 0)
@@ -188,6 +201,7 @@ public class GameSM : SM
 
     public void OnChangeCameraRight()
     {
+        soundManager.PlaySFX(SFX.Click);
         timeCameraSaw[idxCurrentCamera] = 0;
 
         if (idxCurrentCamera == DataManager.countCamera - 1)
@@ -571,5 +585,10 @@ public class GameSM : SM
     public void OnClickTestInputField()
     {
         OnOccurTest(int.Parse(inputField.text));
+    }
+
+    public void OnChangeLanguage()
+    {
+        textCamera.text = DataManager.GetString($"Label_Place_{(PlaceType)idxCurrentCamera}");
     }
 }

@@ -38,6 +38,7 @@ public class ShowSM : SM
             else
                 s = DataManager.GetString(strings[i]);
             text.text = s;
+            Canvas.ForceUpdateCanvases();
             rtText.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, text.preferredWidth + 40f);
             text.text = "";
             textTyper.Play(s);

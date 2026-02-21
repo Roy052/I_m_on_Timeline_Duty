@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EndSM : ShowSM
 {
@@ -6,9 +7,9 @@ public class EndSM : ShowSM
     {
         endSM = this;
         if (gm.gameResult.isClear)
-            strings = DataManager.gameEndStrs;
+            strings = new List<string>(DataManager.gameEndStrs);
         else
-            strings = DataManager.gameOverStrs;
+            strings = new List<string>(DataManager.gameOverStrs);
 
         strings.Insert(0, DataManager.GetString("Ending_Result", gm.gameResult.countAnomaly.ToString(), gm.gameResult.countFix.ToString()));
     }

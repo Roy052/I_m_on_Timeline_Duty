@@ -11452,7 +11452,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1886675615}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.7942462
+  m_Size: 0.79424626
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13370,7 +13370,6 @@ GameObject:
   - component: {fileID: 1846981079}
   - component: {fileID: 1846981078}
   - component: {fileID: 1846981077}
-  - component: {fileID: 1846981076}
   m_Layer: 5
   m_Name: BtnCameraLeft
   m_TagString: Untagged
@@ -13397,20 +13396,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 120}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1846981076
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846981074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bb3d92deed6adb4c99187918b31876e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundClick: 1
-  scaling: 0
 --- !u!114 &1846981077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13829,7 +13814,6 @@ GameObject:
   - component: {fileID: 1907176195}
   - component: {fileID: 1907176194}
   - component: {fileID: 1907176193}
-  - component: {fileID: 1907176192}
   m_Layer: 5
   m_Name: BtnCameraRight
   m_TagString: Untagged
@@ -13856,20 +13840,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 120}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &1907176192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907176190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bb3d92deed6adb4c99187918b31876e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundClick: 1
-  scaling: 0
 --- !u!114 &1907176193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15000,7 +14970,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1176344887}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.7942462
+  m_Size: 0.79424626
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
